@@ -1,0 +1,54 @@
+﻿@model CRUDVjezba.Models.ExampleClass
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <script src='//cdn.tinymce.com/4/tinymce.min.js'></script>
+    <script>
+  tinymce.init({
+        selector: '#mytextarea',
+        plugin: 'a_tinymce_plugin',
+        a_plugin_option: true,
+        a_configuration_option: 400,
+        plugins: [
+            'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+            'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+            'save table contextmenu directionality emoticons template paste textcolor'
+        ],
+        height: 700,
+        theme: 'modern',
+        advlist_bullet_styles: 'square',
+        file_picker_callback: function (callback, value, meta) {
+            if (meta.filetype == 'image') {
+                var input = document.getElementById('my-file');
+                input.click();
+                input.onchange = function () {
+                    var file = input.files[0];
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        callback(e.target.result, {
+                            alt: file.name
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                };
+            }
+        }
+  });
+    </script>
+</head>
+
+<body>
+    <h1>TinyMCE Quick Start Guide</h1>
+    <form method="post" asp-controller="Blog" asp-action="Index">
+        <input id="my-file" type="file" name="my-file" style="display: none;" onchange="" />
+        <textarea asp-for="HtmlContent" id="mytextarea">Hello, World!</textarea>
+        <input type="submit" value="Create" />
+    </form>
+    
+</body>
+</html>

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<CRUDVjezba.Models.Faculty>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@section styles{
+    <environment names="Development">
+        <link rel="stylesheet" href="~/css/css-all.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/css/css-all.min.css" asp-append-version="true" />
+    </environment>
+}
+
+<h2>Create Read Update Delete</h2>
+<a asp-controller="Home" asp-action="CreateFaculty" class="glyphicon glyphicon-plus">Create</a><hr /><br />
+
+    @foreach (var fact in Model)
+    {
+        <div class="divContainer col-md-6">
+            <div id="logo">
+                <img src="@Url.Content(@fact.LogoString)" alt="Image" />
+            </div>
+            <div id="info">
+                <h3>@fact.Name</h3>
+                <ul>
+                    <li>ID: @fact.Id</li>
+                    <li>Adress: @fact.Adress</li>
+                    <li> Date: @fact.Date.Day / @fact.Date.Month / @fact.Date.Year</li>
+                </ul>
+                
+            </div>
+            <div class="change">
+                <a class="btnEdit glyphicon glyphicon-pencil" asp-controller="Home" asp-action="Edit" asp-route-id="@fact.Id">Edit</a><br />
+                <a class="btnDelete glyphicon glyphicon-remove" data-toggle="modal" data-target="#myModal" data-fact-id="@fact.Id">Delete</a>
+            </div>
+        </div>
+     }
+
+@(await Html.PartialAsync("_DeleteConfirm"))
+
+@section Scripts{
+    <script>
+
+        var id = -1;
+        var token = '@Html.AntiForgeryToken()';
+
+        $('.btnDelete').click(function () {
+            id = $(this).attr('data-fact-id');
+        });
+        $(function () {
+            $('#btnOk').click(function () {
+
+                $('#deleteId').val(id);
+
+                token = $(token).val();
+
+                $.ajax({
+                    url: "Home/Delete",
+                    method: "POST",
+                    data: { "id": id, "__RequestVerificationToken": token }
+                }).done(function (data) {
+                    window.location.reload();
+                });
+
+            });
+
+        })
+    </script>
+
+}

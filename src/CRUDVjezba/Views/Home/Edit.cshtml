@@ -1,0 +1,40 @@
+﻿@model CRUDVjezba.Models.Faculty
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<form asp-controller="Home" asp-action="Edit">
+
+    Faculty Name:<input asp-for="Name" type="text" /><br />
+    Faculty Adress:<input asp-for="Adress" type="text" /><br />
+    Students:<input asp-for="Students" type="text" />
+    <input type="hidden" id="hiddenId" asp-for="Id"/>
+    <br />
+    Date:
+    <div class="col-xs-5">
+        <div class='input-group date' id='datetimepicker'>
+            <input type='text' class="form-control" id="date" />
+            <input type="hidden" id="hiddenDate" asp-for="Date" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+    </div>
+    <input type="submit" value="Edit" class="btn btn-default" />
+</form>
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <script>
+        $("#datetimepicker").change(function () {
+            var date = $("#date").val().split(" ")[0];
+            $("#hiddenDate").val(date);
+            console.log(date);
+        });
+        $(function () {
+            $("#datetimepicker").datetimepicker();
+        });
+    </script>
+
+}

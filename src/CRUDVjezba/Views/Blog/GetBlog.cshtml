@@ -1,0 +1,16 @@
+﻿@model IEnumerable<CRUDVjezba.Models.ExampleClass>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div id="log">
+    <h3>Content:</h3>
+</div>
+@foreach (var blog in Model)
+{
+    <div >
+        @*<input id="htmltext" type="hidden" value="@blog.HtmlContent"/>*@
+        @Html.Raw(blog.HtmlContent)
+    </div>
+}
